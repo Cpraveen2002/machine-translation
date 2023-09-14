@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.3/socket.io.js" integrity="sha512-iWPnCISAd/J+ZacwV2mbNLCaPGRrRo5OS81lKTVPtRg1wGTC20Cfmp5Us5RcbLv42QLdbAWl0MI57yox5VecQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        body {
+            color: white;
+            background-color: #28282B;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        var sio = io("http://localhost:8080")
+        console.log(sio)
+        sio.on('hindireturn', (data) => {
+            let returned = data.hindicontent;
+            document.getElementById("hindi-box").value = returned;
+        });
+    </script>
+    <h1>
+        Machine Translation
+    </h1>
+    <textarea id="telugu-box" rows="4" cols="50"></textarea>
+    <br/>
+    <button id="translate-button">Translate</button>
+    <br/>
+    <textarea id="hindi-box" rows="4" cols="50"></textarea>
+    <script>
+        document.getElementById("translate-button").addEventListener("click", function() {
+            // alert("Sending telugu data!");
+            console.log("in sending telugu")
+            let telugu_text = document.getElementById("telugu-box").value;
+            sio.emit("telugucontent", {content: telugu_text})
+        });
+    </script>
+</body>
+</html>
